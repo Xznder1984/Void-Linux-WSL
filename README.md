@@ -1,16 +1,19 @@
-Void Linux WSL
+# Void Linux WSL
 
-A community WSL port of Void Linux.
+Run Void Linux inside Windows Subsystem for Linux.
 
-Features:
-- Uses XBPS package manager
-- Compatible with WSL2
-- Runs runit services
-- Supports Windows file mounting
-- Installs to custom drives like D:\
+## Features
+- XBPS package manager
+- Lightweight and fast
+- Works with WSL2
+- One-command installer
 
-Installation:
-1. Clone repo
-2. Run install.ps1
-3. Launch with:
-   wsl -d VoidLinux
+## Install
+
+Open PowerShell:
+
+irm https://raw.githubusercontent.com/Xznder1984/Void-Linux-WSL/main/scripts/install.ps1 | iex
+
+Then run:
+
+wsl -d VoidLinux
