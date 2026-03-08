@@ -1,0 +1,33 @@
+name: Build Void WSL RootFS
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt update
+          sudo apt install -y wget curl
+
+      - name: Download Void rootfs
+        run: |
+          mkdir -p rootfs
+          cd rootfs
+          LATEST=$(curl -s https://repo-default.voidlinux.org/live/current/ | grep ROOTFS | grep x86_64 | head -n 1 | cut -d '"' -f 2)
+          wget https://repo-default.voidlinux.org/live/current/$LATEST -O void-rootfs.tar.xz
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: void-rootfs
+          path: rootfs/void-rootfs.tar.xz
