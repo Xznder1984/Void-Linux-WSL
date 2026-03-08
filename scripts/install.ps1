@@ -6,11 +6,18 @@ Write-Host "Installing Void Linux WSL..."
 
 mkdir $InstallDir -ErrorAction Ignore
 
+$RootFS = "$InstallDir\void-rootfs.tar.xz"
+
 Write-Host "Downloading rootfs..."
-Invoke-WebRequest $RootFSUrl -OutFile "$InstallDir\void-rootfs.tar.xz"
+Invoke-WebRequest $RootFSUrl -OutFile $RootFS
+
+if (!(Test-Path $RootFS)) {
+    Write-Host "Download failed!"
+    exit
+}
 
 Write-Host "Importing into WSL..."
-wsl --import $DistroName $InstallDir "$InstallDir\void-rootfs.tar.xz"
+wsl --import $DistroName $InstallDir $RootFS
 
 Write-Host "Installation complete!"
 Write-Host "Run it with:"
